@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <button onclick="mmPlay()">play</button>
+</div>
+<!-- Simple audio playback -->
+<audio  controls preload="metadata"
+        id="mmSound"
+        src="http://developer.mozilla.org/@api/deki/files/2926/=AudioTest_(1).ogg"
+        >
+
+</audio>
+
+<audio src="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgetvoice?msgid=3868118163273973268&amp;skey=@crypt_8e241a60_7b80c9d5bd851129b44a6679b3324094" controls="controls" autoplay="autoplay">
+    Your browser does not support the audio element.
+</audio>
+
+<audio id="voiceMsgPlayer" class="voicePlayer" style="width: 100px; height: 40px;">
+    <img id="jp_poster_0"
+                                                                                     style="width: 0px; height: 0px; display: none;">
+    <audio id="jp_audio_0" preload="metadata" autoplay="autoplay" controls="controls"
+           src="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgetvoice?msgid=3868118163273973268&amp;skey=@crypt_8e241a60_7b80c9d5bd851129b44a6679b3324094"></audio>
+</audio>
+
+<script>
+    function mmPlay() {
+       var myAudio = document.getElementById('mmSound');
+        if(myAudio.paused){
+            myAudio.play();
+        }else{
+            myAudio.pause();
+        }
+    }
+</script>
+</body>
+</html>
