@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>pre标签</title>
+    <style>
+        pre {
+            height: 100px;
+            /*border: solid 1px red;*/
+            background-color: lavender;
+        }
+
+        .at-panel {
+            position: absolute;
+            width: 100px;
+            height: 140px;
+            background-color: red;
+
+        }
+    </style>
+</head>
+<body>
+
+<div style="height: 200px;background-color: darkgray"></div>
+<div ng-controller="MainCtrl" style="position: relative">
+    <div>
+        <button ng-click="addImage()">插入图片</button>
+        <button>插入文字</button>
+        <button ng-click="addInput()">插入input</button>
+        <button>获取光标</button>
+        <button>设置光标</button>
+    </div>
+
+    <pre id="editArea" contenteditable="true"></pre>
+
+    <div id="atPanel" class="at-panel">
+        123
+    </div>
+</div>
+
+
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('app', []).controller('MainCtrl', ['$scope', function ($scope) {
+        $scope.addImage = function () {
+            alert('ok');
+        };
+
+        $scope.addInput = function () {
+            var id = insertInput();
+            var atEle = document.getElementById(id);
+            var atPanel = document.getElementById('atPanel');
+            atPanel.style.left =atEle.offsetLeft+"px";
+            atPanel.style.top =(-140 +atEle.offsetTop)+"px";
+            console.log('坐标是');
+            console.log(atEle.offsetLeft);
+            console.log(atEle.offsetTop);
+        };
+
+        function myInput() {
+            document.getElementById('editArea').focus();
+            var selectObj = window.getSelection();
+            var range = selectObj.getRangeAt(0);
+            console.log(range);
+        }
+
+        function insertInput() {
+            document.getElementById('editArea').focus();
+            var sel, range;
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                // 返回一个 Selection 对象，表示用户选择的文本。
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+
+                    console.log(range);
+                    //range.deleteContents();
+                    var el = document.createElement("pre");
+                    var inputId = 'id' + (+new Date());
+                    //var ele = document.getElementById('editArea');
+                    el.innerHTML = '<input id="add_input_' + inputId + '"  readonly   value="@科比" name="add_input_">';
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ((node = el.firstChild)) {
+//                        console.log(el.firstChild);
+                        lastNode = frag.appendChild(node);
+                        console.log(lastNode);
+                        console.log('执行循环');
+                    }
+                    range.insertNode(frag);
+                    console.log(range);
+                    // Preserve the selection
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            } else if (document.selection && document.selection.type != "Control") {
+                // IE < 9
+                document.selection.createRange().pasteHTML(html);
+            }
+            document.getElementById('editArea').focus();
+            return "add_input_" + inputId;
+        }
+
+    }]);
+</script>
+</body>
+</html>
