@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        pre {
+            height: 100px;
+            border: solid 1px red;
+        }
+    </style>
+</head>
+<body>
+<button onclick="test()">获取AT</button>
+<button onclick="getCursorPos()">获取光标位置</button>
+<button onclick="setCursor()">设置光标位置</button>
+<pre id="editContent" contenteditable="true"><img src="../images/1.png" alt=""><input
+        style="border: 0;font-style:italic;font-weight: 600;height: 20px;background-color: #f8f8f8;"
+        value="无效找" size="6" readonly=""></pre>
+
+
+<input id="editContent2" type="text">
+<script>
+    function test() {
+        var preEle = document.getElementById('editContent');
+        var inputArr = preEle.getElementsByTagName('input');
+        console.log(inputArr);
+    }
+
+    /**
+     * 设置光标在短连接输入框中的位置
+     * @param inputId 框Id
+     * @param pos
+     * @return {*}s
+     */
+    function setCursorPos(inputId, pos) {
+
+        var inpObj = document.getElementById(inputId);
+        if (navigator.userAgent.indexOf("MSIE") > -1) {
+            var range = document.selection.createRange();
+            var textRange = inpObj.createTextRange();
+            textRange.moveStart('character', pos);
+            textRange.collapse();
+            textRange.select();
+        } else {
+            inpObj.setSelectionRange(n, n);
+        }
+    }
+
+
+    /**
+     * 获取光标在短连接输入框中的位置
+     * @param inputId 框Id
+     * @return {*}
+     */
+    function getCursorPos(inputId) {
+        inputId = 'editContent2'
+        var inpObj = document.getElementById(inputId);
+        if (navigator.userAgent.indexOf("MSIE") > -1) { // IE
+            var range = document.selection.createRange();
+            range.text = '';
+            range.setEndPoint('StartToStart', inpObj.createTextRange());
+            return range.text.length;
+        } else {
+            var xx = inpObj.selectionStart;
+            console.log(xx);
+            return inpObj.selectionStart;
+        }
+    }
+
+
+    function setCursor(pos) {
+        pos=4;
+        var el = document.getElementById("editContent");
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(el.childNodes[0], pos);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        el.focus();
+    }
+
+
+    function setCaretPosition(ctrl, pos) {
+        pos =2;
+       var  inputId = 'editContent'
+        var ctrl = document.getElementById(inputId);
+        if (ctrl.setSelectionRange) {
+            ctrl.focus();
+            ctrl.setSelectionRange(pos, pos);
+        }
+        else if (ctrl.createTextRange) {
+            var range = ctrl.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+        }
+    }
+</script>
+</body>
+</html>
+
