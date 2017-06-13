@@ -11,12 +11,13 @@
     </style>
 </head>
 <body>
+<button onclick="">在光标处插入文本</button>
 <button onclick="test()">获取AT</button>
 <button onclick="getCursorPos()">获取光标位置</button>
 <button onclick="setCursor()">设置光标位置</button>
 <pre id="editContent" contenteditable="true"><img src="../images/1.png" alt=""><input
         style="border: 0;font-style:italic;font-weight: 600;height: 20px;background-color: #f8f8f8;"
-        value="无效找" size="6" readonly=""></pre>
+        value="张科比" size="6" readonly=""></pre>
 
 
 <input id="editContent2" type="text">
@@ -45,6 +46,10 @@
         } else {
             inpObj.setSelectionRange(n, n);
         }
+    }
+    
+    function insertText() {
+        
     }
 
 

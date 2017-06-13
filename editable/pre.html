@@ -7,7 +7,8 @@
         pre {
             height: 100px;
             /*border: solid 1px red;*/
-            background-color: lavender;
+            background-color: white;
+            border: solid 1px red;
         }
 
         .at-panel {
@@ -21,12 +22,15 @@
 </head>
 <body>
 
-<div style="height: 200px;background-color: darkgray"></div>
+<div style="height: 200px;background-color: darkgray">
+    <img src="../images/1.png" alt="">
+</div>
 <div ng-controller="MainCtrl" style="position: relative">
     <div>
         <button ng-click="addImage()">插入图片</button>
-        <button>插入文字</button>
+        <button ng-click="insertTextAtCursor()">插入文字</button>
         <button ng-click="addInput()">插入input</button>
+        <button ng-click="insertEnter()">插入换行</button>
         <button>获取光标</button>
         <button>设置光标</button>
     </div>
@@ -43,7 +47,160 @@
 <script>
     angular.module('app', []).controller('MainCtrl', ['$scope', function ($scope) {
         $scope.addImage = function () {
-            alert('ok');
+            
+        };
+
+        var insertBlank = function(){
+            document.getElementById('editArea').focus();
+            console.log(document.getElementById('editArea').innerHTML);
+            var sel, range;
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    console.log(range);
+                    //range.deleteContents();
+                    var el = document.createElement("pre");
+                    el.innerHTML = '\r\n';
+                    /*el.innerHTML = '\n'+'&nbsp;';*/
+                    /*el.innerHTML ='<br/>';*/
+                    $("#editArea").append("<br/>");
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ( (node = el.firstChild) ) {
+                        console.log(node);
+                        lastNode = frag.appendChild(node);
+                    }
+                    console.log(lastNode);
+                    range.insertNode(frag);
+                    // Preserve the selection
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            } else if (document.selection && document.selection.type != "Control") {
+                // IE < 9
+                document.selection.createRange().pasteHTML(html);
+            }
+        };
+
+        function insertNewLine() {
+            angular.element('#editArea').focus();
+            var sel, range;
+            if (window.getSelection) {
+
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    console.log(range);
+
+                    var el = document.createElement("pre");
+                    el.innerHTML = '\r\n';
+
+                    angular.element('#editArea').append("<br/>");
+                    var frag = document.createDocumentFragment(),
+                        node, lastNode;
+                    while ((node = el.firstChild)) {
+                        console.log(node);
+                        lastNode = frag.appendChild(node);
+                    }
+                    console.log(lastNode);
+                    range.insertNode(frag);
+
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            }
+            else if (document.selection && document.selection.type != "Control") {
+                // IE < 9
+                document.selection.createRange().pasteHTML(html);
+            }
+        }
+
+        $scope.insertEnter = function () {
+            insertNewLine();
+        };
+
+        function addEnter() {
+            var text='<br/>';
+            document.getElementById('editArea').focus();
+            var sel;//选中的对象
+            var  range;//
+            if (window.getSelection) {
+                sel = window.getSelection();
+                // 返回一个 Selection 对象，表示用户选择的文本。
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    var el = document.createElement("pre");
+
+                    el.innerHTML = text;
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ((node = el.firstChild)) {
+                        lastNode = frag.appendChild(node);
+                        console.log(lastNode);
+                        console.log('执行循环');
+                    }
+                    range.insertNode(frag);
+                    console.log(range);
+                    // Preserve the selection
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            }
+        }
+
+        /**
+         * 1.选中编辑区域然后获取到
+         * 2.创建一个pre元素，制定其html内容
+         * 3.创建一个documentFragment然后添加el
+         * 4.range中插入documentFragment
+         * 5.选中区域插入range
+         */
+        $scope.insertTextAtCursor= function () {
+            var text='  <img src="../images/1.png" alt="">锄禾日当午，汗滴禾下土。';
+            document.getElementById('editArea').focus();
+            var sel;//选中的对象
+            var  range;//
+            if (window.getSelection) {
+                sel = window.getSelection();
+                // 返回一个 Selection 对象，表示用户选择的文本。
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    var el = document.createElement("pre");
+
+                    el.innerHTML = text;
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ((node = el.firstChild)) {
+                        lastNode = frag.appendChild(node);
+                        console.log(lastNode);
+                        console.log('执行循环');
+                    }
+                    range.insertNode(frag);
+                    console.log(range);
+                    // Preserve the selection
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            }
         };
 
         $scope.addInput = function () {

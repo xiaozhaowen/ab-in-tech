@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>进度条</title>
+    <style>
+        .weui-progress {
+            display: flex;
+            align-items: center;
+        }
+
+        .weui-progress__bar {
+            background-color: #EBEBEB;
+            height: 3px;
+            flex: 1;
+        }
+
+        .weui-progress__inner-bar {
+            width: 0;
+            height: 100%;
+            background-color: #09BB07;
+        }
+
+        .weui-progress__opr {
+            display: block;
+            margin-left: 15px;
+            font-size: 0;
+        }
+        .weui-icon-cancel-img{
+            width: 16px;
+        }
+        .weui-icon-cancel {
+            color: #F43530;
+            font-size: 22px;
+
+        }
+    </style>
+</head>
+<body>
+<div  ng-controller="MainCtrl">
+    <button ng-click="start()">开始</button>
+
+    <div class="weui-progress">
+        <div class="weui-progress__bar">
+            <div class="weui-progress__inner-bar js_progress" style="width: 0%;"></div>
+        </div>
+        <a href="javascript:;" class="weui-progress__opr">
+            <img style="width: 16px" src="../images/shanchuanniu.png" alt="">
+        </a>
+    </div>
+
+    <h1>HELLO</h1>
+
+    <bbc-progress total="100" complete="sizeComplete"></bbc-progress>
+</div>
+
+<!--<script src='https://code.jquery.com/jquery-2.1.0.min.js'></script>-->
+<script src="../lib/angular.js"></script>
+<script src="bbcProgress.js"></script>
+<!--<script src="progress.js"></script>-->
+<!--<script src="progress2.js"></script>-->
+</body>
+</html>
